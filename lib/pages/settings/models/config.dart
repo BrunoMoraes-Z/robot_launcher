@@ -1,20 +1,19 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:robot_launcher/constants.dart';
 
-@immutable
 class Config {
   late String? robotDir;
   late String? runCommand;
   late String? logDir;
   late String? arguments;
   late String? runFile;
+  late String? process;
 
   @override
   String toString() {
-    return 'Teste(robotDir: $robotDir, runCommand: $runCommand, logDir: $logDir, arguments: $arguments, runFile: $runFile)';
+    return 'Teste(robotDir: $robotDir, runCommand: $runCommand, logDir: $logDir, arguments: $arguments, runFile: $runFile, process: $process)';
   }
 
   Config.fromJson(Map<String, dynamic> json) {
@@ -23,6 +22,7 @@ class Config {
     logDir = json['log_dir'] as String;
     arguments = json['arguments'] as String;
     runFile = json['run_file'] as String;
+    process = json['process'] as String;
   }
 
   Map<String, dynamic> toJson() => {
@@ -31,6 +31,7 @@ class Config {
         'log_dir': logDir,
         'arguments': arguments,
         'run_file': runFile,
+        'process': process,
       };
 
   @override
@@ -41,6 +42,7 @@ class Config {
         other.robotDir == robotDir &&
         other.runCommand == runCommand &&
         other.logDir == logDir &&
+        other.process == process &&
         other.runFile == runFile;
   }
 
@@ -50,11 +52,12 @@ class Config {
       runCommand.hashCode ^
       logDir.hashCode ^
       arguments.hashCode ^
+      process.hashCode ^
       runFile.hashCode;
 
   void save() {
-    var config =
-        File.fromUri(Uri.file('${sys_dir.path}${file_separator}config.json'));
+    var config = File.fromUri(
+        Uri.file('${sysDir.path}${Platform.pathSeparator}config.json'));
     config.writeAsStringSync(json.encode(toJson()));
   }
 }

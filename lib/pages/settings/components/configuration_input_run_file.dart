@@ -21,7 +21,7 @@ class _ConfigurationInputRunFileState extends State<ConfigurationInputRunFile> {
   @override
   void initState() {
     super.initState();
-    content = this.widget.controller.config_n.value.runFile!;
+    content = this.widget.controller.configN.value.runFile!;
   }
 
   @override

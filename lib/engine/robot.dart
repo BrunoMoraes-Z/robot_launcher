@@ -13,13 +13,20 @@ class Robot {
 
   List<void Function(String)> onStdOut = [
     (data) {
-      data.split('\r\n').forEach(
-        (element) {
-          if (element.isNotEmpty) {
+      if (data.isNotEmpty) {
+        data.split('\r\n').forEach((element) {
+          if (element.length > 0) {
             controller.add(element);
           }
-        },
-      );
+        });
+      }
+      // data.split('\r\n').forEach(
+      //   (element) {
+      //     if (element.isNotEmpty) {
+      //       controller.add(element);
+      //     }
+      //   },
+      // );
     }
   ];
 
@@ -31,6 +38,25 @@ class Robot {
     required this.output,
   });
 
+  Future<void> update() async {
+    await Process.start('git', ['pull'], workingDirectory: dir).then((value) {
+      value.stdout.transform(utf8.decoder).listen((event) {
+        onStdOut.forEach((element) {
+          element(event);
+        });
+      });
+    });
+
+    // process.stdout.transform(utf8.decoder).listen((event) {
+    //   onStdOut.forEach((element) {
+    //     element(event);
+    //   });
+    // });
+    // controller.process = process;
+
+    // return await process.exitCode;
+  }
+
   Future<int> start() async {
     String cmd = '-d $output';
     if (this.arguments.length > 0) {
@@ -38,6 +64,7 @@ class Robot {
         cmd = '$cmd -v $element';
       });
     }
+    // cmd = '$cmd $file >> ${sysDir.path}${Platform.pathSeparator}buffer.txt';
     cmd = '$cmd $file';
 
     controller
@@ -47,6 +74,7 @@ class Robot {
       command,
       cmd.split(' '),
       workingDirectory: dir,
+      runInShell: true,
     );
 
     process.stdout.transform(utf8.decoder).listen((event) {

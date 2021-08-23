@@ -14,5 +14,4 @@ final Color buttonColor = Color(0xff4e6de9);
 
 final BaseController controller = BaseController(defaultMenuState);
 
-var sys_dir = Directory.fromUri(Uri.parse(Platform.script.path)).parent;
-String get file_separator => Platform.isWindows ? '\\' : '/';
+var sysDir = Directory.fromUri(Uri.parse(Platform.script.path)).parent;

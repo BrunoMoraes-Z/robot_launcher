@@ -21,7 +21,7 @@ class _ConfigurationInputLogDirState extends State<ConfigurationInputLogDir> {
   @override
   void initState() {
     super.initState();
-    content = this.widget.controller.config_n.value.logDir!;
+    content = this.widget.controller.configN.value.logDir!;
   }
 
   @override

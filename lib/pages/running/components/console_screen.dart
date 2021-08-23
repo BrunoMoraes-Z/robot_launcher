@@ -18,6 +18,7 @@ class _ConsoleScreenState extends State<ConsoleScreen> {
     const oneSec = const Duration(seconds: 1);
     new Timer.periodic(oneSec, (Timer t) {
       if (controller.autoScrool) {
+        // ignore: invalid_use_of_protected_member
         if (_controller.positions.isNotEmpty) {
           _controller.jumpTo(_controller.position.maxScrollExtent);
         }

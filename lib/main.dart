@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:robot_launcher/pages/base/base_page.dart';
 import 'package:robot_launcher/utils/configuration.dart';
 
-void main() {
+void main() async {
+  setupConfigFile();
   runApp(MyApp());
   doWhenWindowReady(
     () {
@@ -13,7 +14,6 @@ void main() {
       win.size = initialSize;
       win.alignment = Alignment.center;
       win.title = 'Robot Launcher';
-      setupConfigFile();
       win.show();
     },
   );

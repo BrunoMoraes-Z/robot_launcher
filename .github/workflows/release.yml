@@ -1,0 +1,57 @@
+name: Code Analize
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ${{matrix.os}}
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+        include: 
+        - os: macos-latest
+          TARGET: macos  
+        - os: ubuntu-latest
+          TARGET: linux     
+        - os: windows-latest
+          TARGET: windows
+        sdk: [stable]
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          path: fde
+
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: ${{ matrix.sdk }}
+
+      - name: Doctor
+        run: flutter doctor -v
+
+      - name: Enable desktop support
+        run: |
+          flutter config --enable-linux-desktop
+          flutter config --enable-macos-desktop
+          flutter config --enable-windows-desktop
+
+      - name: Install dependencies
+        run: dart pub get
+
+      - name: Analyze project source
+        run: dart analyze
+
+      - name: Build Release
+        run: |
+          flutter build -v ${{matrix.TARGET}}  --release
+        working-directory: ${{github.workspace}}/fde
+
+      - name: Create a Zip Release
+        uses: thedoctor0/zip-release@master
+        with:
+          type: 'zip'
+          filename: 'RobotLauncher-${{matrix.TARGET}}.zip'
+          directory: '${{github.workspace}}/fde/build/${{matrix.TARGET}}/runner/release'
+          exclusions: '*.lib *.exp'

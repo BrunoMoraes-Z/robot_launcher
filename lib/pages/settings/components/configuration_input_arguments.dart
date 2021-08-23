@@ -22,7 +22,7 @@ class _ConfigurationInputArgumentsState
   @override
   void initState() {
     super.initState();
-    content = this.widget.controller.config_n.value.arguments!;
+    content = this.widget.controller.configN.value.arguments!;
   }
 
   @override

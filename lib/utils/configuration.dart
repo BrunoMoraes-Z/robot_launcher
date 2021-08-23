@@ -5,8 +5,8 @@ import 'package:robot_launcher/constants.dart';
 import 'package:robot_launcher/pages/settings/models/config.dart';
 
 void setupConfigFile() {
-  var config =
-      File.fromUri(Uri.file('${sys_dir.path}${file_separator}config.json'));
+  var config = File.fromUri(
+      Uri.file('${sysDir.path}${Platform.pathSeparator}config.json'));
   if (!config.existsSync()) {
     config.createSync();
     config.writeAsStringSync(json.encode(
@@ -15,14 +15,15 @@ void setupConfigFile() {
         'run_command': 'robot',
         'log_dir': 'output',
         'arguments': '',
-        'run_file': '',
+        'run_file': '.',
+        'process': 'robot.exe'
       },
     ));
   }
 }
 
 Config readConfigFile() {
-  var config =
-      File.fromUri(Uri.file('${sys_dir.path}${file_separator}config.json'));
+  var config = File.fromUri(
+      Uri.file('${sysDir.path}${Platform.pathSeparator}config.json'));
   return Config.fromJson(json.decode(config.readAsStringSync()));
 }

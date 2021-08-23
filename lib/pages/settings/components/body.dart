@@ -3,6 +3,7 @@ import 'package:robot_launcher/constants.dart';
 import 'package:robot_launcher/pages/settings/components/configuration_input_arguments.dart';
 import 'package:robot_launcher/pages/settings/components/configuration_input_file.dart';
 import 'package:robot_launcher/pages/settings/components/configuration_input_log_dir.dart';
+import 'package:robot_launcher/pages/settings/components/configuration_input_process.dart';
 import 'package:robot_launcher/pages/settings/components/configuration_input_run_command.dart';
 import 'package:robot_launcher/pages/settings/components/configuration_input_run_file.dart';
 import 'package:robot_launcher/pages/settings/components/configuration_section.dart';
@@ -27,11 +28,11 @@ class _SettingsBodyState extends State<SettingsBody> {
               itens: [
                 Text('Caminho onde o projeto se encontra.'),
                 AnimatedBuilder(
-                  animation: controller.config_n,
+                  animation: controller.configN,
                   builder: (context, value) {
                     return ConfigurationDirectoryInput(
-                      text: controller.config_n.value.robotDir ?? '',
-                      controller: controller.config_n,
+                      text: controller.configN.value.robotDir ?? '',
+                      controller: controller.configN,
                       buttonText: 'Escolher',
                       color: itemColor,
                     );
@@ -54,6 +55,9 @@ class _SettingsBodyState extends State<SettingsBody> {
                 SizedBox(height: 30),
                 Text('Arquivo a ser Executado'),
                 ConfigurationInputRunFile(controller: controller),
+                SizedBox(height: 30),
+                Text('Nome do processo para eliminar'),
+                ConfigurationInputProcess(controller: controller),
               ],
             ),
           ],

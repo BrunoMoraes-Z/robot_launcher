@@ -54,6 +54,7 @@ class ConfigurationDirectoryInput extends StatelessWidget {
               if (result != null) {
                 controller.value.robotDir =
                     Directory.fromUri(Uri.file(result.path)).parent.path;
+                // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
                 controller.notifyListeners();
                 controller.value.save();
               }

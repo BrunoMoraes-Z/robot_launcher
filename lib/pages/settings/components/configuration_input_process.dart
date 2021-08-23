@@ -2,27 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:robot_launcher/constants.dart';
 import 'package:robot_launcher/pages/base/base_controller.dart';
 
-class ConfigurationInputRunCommand extends StatefulWidget {
+class ConfigurationInputProcess extends StatefulWidget {
   final BaseController controller;
-  const ConfigurationInputRunCommand({
+  const ConfigurationInputProcess({
     Key? key,
     required this.controller,
   }) : super(key: key);
 
   @override
-  _ConfigurationInputRunCommandState createState() =>
-      _ConfigurationInputRunCommandState();
+  _ConfigurationInputProcessState createState() =>
+      _ConfigurationInputProcessState();
 }
 
-class _ConfigurationInputRunCommandState
-    extends State<ConfigurationInputRunCommand> {
+class _ConfigurationInputProcessState extends State<ConfigurationInputProcess> {
   var enabled = false;
   String content = '';
 
   @override
   void initState() {
     super.initState();
-    content = this.widget.controller.configN.value.runCommand!;
+    content = this.widget.controller.configN.value.process!;
   }
 
   @override
@@ -59,7 +58,7 @@ class _ConfigurationInputRunCommandState
             onPressed: () {
               setState(() {
                 if (enabled) {
-                  this.widget.controller.update('run_command', content);
+                  this.widget.controller.update('run_file', content);
                 }
                 enabled = !enabled;
               });

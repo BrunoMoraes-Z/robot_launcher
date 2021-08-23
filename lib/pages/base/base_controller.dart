@@ -10,11 +10,11 @@ import 'package:robot_launcher/utils/enums.dart';
 class BaseController extends ValueNotifier<MenuState> {
   BaseController(MenuState value) : super(value);
 
-  final ValueNotifier<Config> config_n = ValueNotifier(readConfigFile());
+  final ValueNotifier<Config> configN = ValueNotifier(readConfigFile());
   late bool autoScrool = true;
   late Process process;
-  final ValueNotifier<bool> running = ValueNotifier(false);
-  final ValueNotifier<bool> updating = ValueNotifier(false);
+  final ValueNotifier<EngineState> engineState =
+      ValueNotifier(EngineState.stopped);
   final Config config = readConfigFile();
   ValueNotifier<List<String>> log = ValueNotifier([]);
   late Map<MenuState, Widget> states = {};
@@ -22,6 +22,13 @@ class BaseController extends ValueNotifier<MenuState> {
     MenuState.settings: SettingsPage(),
     MenuState.runnning: RunningPage(),
   };
+
+  void startProcess(String cmd, List<String> args, String dir) async {}
+
+  void updateEngine(EngineState state) {
+    engineState.value = state;
+    engineState.notifyListeners();
+  }
 
   void add(String line) {
     log.value.add(line);
@@ -46,16 +53,16 @@ class BaseController extends ValueNotifier<MenuState> {
   }
 
   void update(key, value) {
-    var content = config_n.value.toJson();
+    var content = configN.value.toJson();
     if (content.containsKey(key)) {
       if (value is List) {
         content[key] = value.join(' ');
       } else {
         content[key] = value;
       }
-      config_n.value = Config.fromJson(content);
-      config_n.notifyListeners();
-      config_n.value.save();
+      configN.value = Config.fromJson(content);
+      configN.notifyListeners();
+      configN.value.save();
     }
   }
 }
