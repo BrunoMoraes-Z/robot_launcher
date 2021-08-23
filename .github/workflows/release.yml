@@ -23,10 +23,25 @@ jobs:
       - uses: actions/checkout@v2
         with:
           path: fde
+      - uses: actions/checkout@v2
+        with:
+          path: flutter
+          repository: flutter/flutter
+          ref: master
+          # Shallow clones don't work; see https://github.com/flutter/flutter/issues/18532
+          fetch-depth: 0
 
       - uses: dart-lang/setup-dart@v1
         with:
           sdk: ${{ matrix.sdk }}
+
+      - name: Add Flutter to path
+        if: startsWith(matrix.os, 'windows')
+        run: echo "::add-path::$env:GITHUB_WORKSPACE\flutter\bin"
+        
+      - name: Add Flutter to path
+        if: startsWith(matrix.os, 'macOS') || startsWith(matrix.os, 'ubuntu')
+        run: echo "::add-path::$GITHUB_WORKSPACE/flutter/bin"
 
       - name: Doctor
         run: flutter doctor -v
