@@ -55,5 +55,13 @@ jobs:
           filename: 'RobotLauncher-${{matrix.TARGET}}.zip'
           directory: './build/${{matrix.TARGET}}/runner/release'
           exclusions: '*.lib *.exp'
-          
-      - run: ls -al
+
+      - run: ls
+        
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          # Artifact name
+          name: release-${{ matrix.os }}
+          # A file, directory or wildcard pattern that describes what to upload
+          path: RobotLauncher-${{matrix.TARGET}}.zip
