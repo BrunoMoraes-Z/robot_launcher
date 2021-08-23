@@ -46,13 +46,14 @@ jobs:
 
       - name: Build Release
         run: |
-          flutter build -v ${{matrix.TARGET}}  --release
-        working-directory: ${{github.workspace}}/fde
+          flutter build -v ${{matrix.TARGET}} --release
 
       - name: Create a Zip Release
         uses: thedoctor0/zip-release@master
         with:
           type: 'zip'
           filename: 'RobotLauncher-${{matrix.TARGET}}.zip'
-          directory: '${{github.workspace}}/fde/build/${{matrix.TARGET}}/runner/release'
+          directory: './build/${{matrix.TARGET}}/runner/release'
           exclusions: '*.lib *.exp'
+          
+      - run: ls -al
