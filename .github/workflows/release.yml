@@ -10,11 +10,7 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest]
-        include: 
-        - os: macos-latest
-          TARGET: macos  
-        - os: ubuntu-latest
-          TARGET: linux     
+        include:
         - os: windows-latest
           TARGET: windows
         sdk: [stable]
