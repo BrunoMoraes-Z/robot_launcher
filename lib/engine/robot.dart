@@ -58,14 +58,17 @@ class Robot {
   }
 
   Future<int> start() async {
-    String cmd = '-d $output';
+    String cmd = '';
+    if (command == 'pabot') {
+      cmd = '-d $output';
+    }
     if (this.arguments.length > 0) {
       this.arguments.split(' ').forEach((element) {
         cmd = '$cmd $element';
       });
     }
     // cmd = '$cmd $file >> ${sysDir.path}${Platform.pathSeparator}buffer.txt';
-    cmd = '$cmd $file';
+    cmd = '$cmd -d $output $file';
 
     controller
         .add('Executando o comando ($command $cmd) dentro da pasta ($dir)');
