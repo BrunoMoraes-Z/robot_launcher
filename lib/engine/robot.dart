@@ -61,7 +61,7 @@ class Robot {
     String cmd = '-d $output';
     if (this.arguments.length > 0) {
       this.arguments.split(' ').forEach((element) {
-        cmd = '$cmd -v $element';
+        cmd = '$cmd $element';
       });
     }
     // cmd = '$cmd $file >> ${sysDir.path}${Platform.pathSeparator}buffer.txt';
