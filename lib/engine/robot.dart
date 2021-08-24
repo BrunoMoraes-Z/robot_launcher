@@ -59,9 +59,6 @@ class Robot {
 
   Future<int> start() async {
     String cmd = '';
-    if (command == 'pabot') {
-      cmd = '-d $output';
-    }
     if (this.arguments.length > 0) {
       this.arguments.split(' ').forEach((element) {
         cmd = '$cmd $element';
