@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:robot_launcher/constants.dart';
-import 'package:robot_launcher/utils/command_line_converter.dart';
 
 class Robot {
   final String dir;
