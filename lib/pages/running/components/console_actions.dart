@@ -134,14 +134,17 @@ class _ConsoleActionsState extends State<ConsoleActions> {
                     SizedBox(width: 10),
                     ConsoleButton(
                       action: () {
-                        Process.start('taskkill', [
-                          '/f',
-                          '/im',
-                          controller.configN.value.process!,
-                        ]).then(
-                          (value) =>
-                              controller.updateEngine(EngineState.stopped),
-                        );
+                        if (controller.config.runCommand!.toLowerCase() !=
+                            'pabot') {
+                          Process.start('taskkill', [
+                            '/f',
+                            '/im',
+                            controller.configN.value.process!,
+                          ]).then(
+                            (value) =>
+                                controller.updateEngine(EngineState.stopped),
+                          );
+                        }
                       },
                       enabled:
                           controller.engineState.value == EngineState.running,

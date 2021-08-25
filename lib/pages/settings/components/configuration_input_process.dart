@@ -58,7 +58,7 @@ class _ConfigurationInputProcessState extends State<ConfigurationInputProcess> {
             onPressed: () {
               setState(() {
                 if (enabled) {
-                  this.widget.controller.update('run_file', content);
+                  this.widget.controller.update('process', content);
                 }
                 enabled = !enabled;
               });

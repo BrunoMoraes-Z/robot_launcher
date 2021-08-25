@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:robot_launcher/constants.dart';
+import 'package:robot_launcher/utils/command_line_converter.dart';
 
 class Robot {
   final String dir;
@@ -20,13 +21,6 @@ class Robot {
           }
         });
       }
-      // data.split('\r\n').forEach(
-      //   (element) {
-      //     if (element.isNotEmpty) {
-      //       controller.add(element);
-      //     }
-      //   },
-      // );
     }
   ];
 
@@ -61,11 +55,14 @@ class Robot {
     String cmd = '';
     if (this.arguments.length > 0) {
       this.arguments.split(' ').forEach((element) {
-        cmd = '$cmd $element';
+        if (cmd.isEmpty) {
+          cmd = element;
+        } else {
+          cmd = '$cmd $element';
+        }
       });
     }
-    // cmd = '$cmd $file >> ${sysDir.path}${Platform.pathSeparator}buffer.txt';
-    cmd = '$cmd -d $output $file';
+    cmd = (output.isNotEmpty ? '$cmd -d $output $file' : '$cmd $file').trim();
 
     controller
         .add('Executando o comando ($command $cmd) dentro da pasta ($dir)');
