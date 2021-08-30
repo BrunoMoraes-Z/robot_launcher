@@ -136,7 +136,7 @@ class _ConsoleActionsState extends State<ConsoleActions> {
                       action: () {
                         //if (controller.config.runCommand!.toLowerCase() != 'pabot') {
                           controller.configN.value.process!.split(',').forEach((element) {
-                            Process.start('taskkill', ['/f', '/im', element.trim()]).then((value) => controler.updateEngine(EngineState.stopped));
+                            Process.start('taskkill', ['/f', '/im', element.trim()]).then((value) => controller.updateEngine(EngineState.stopped));
                           });
                           //Process.start('taskkill', [
                           //  '/f',
