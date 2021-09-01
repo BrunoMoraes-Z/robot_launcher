@@ -7,6 +7,6 @@ class RunningController {
     var git = Directory.fromUri(
       Uri.directory(sysDir.path + Platform.pathSeparator + '.git'),
     );
-    return ''.isEmpty ? false : git.existsSync();
+    return git.existsSync();
   }
 }

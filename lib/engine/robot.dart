@@ -16,7 +16,11 @@ class Robot {
       if (data.isNotEmpty) {
         data.split('\r\n').forEach((element) {
           if (element.length > 0) {
-            controller.add(element);
+            if (element.trim() == 'Already up to date.') {
+              controller.add('Você já esta com a versão mais atualizada.');
+            } else {
+              controller.add(element);
+            }
           }
         });
       }
@@ -31,23 +35,22 @@ class Robot {
     required this.output,
   });
 
-  Future<void> update() async {
-    await Process.start('git', ['pull'], workingDirectory: dir).then((value) {
-      value.stdout.transform(utf8.decoder).listen((event) {
-        onStdOut.forEach((element) {
-          element(event);
-        });
+  Future<int> update() async {
+    var process = await Process.start(
+      'git',
+      ['pull'],
+      workingDirectory: dir,
+      runInShell: true,
+    );
+
+    process.stdout.transform(utf8.decoder).listen((event) {
+      onStdOut.forEach((element) {
+        element(event);
       });
     });
+    controller.process = process;
 
-    // process.stdout.transform(utf8.decoder).listen((event) {
-    //   onStdOut.forEach((element) {
-    //     element(event);
-    //   });
-    // });
-    // controller.process = process;
-
-    // return await process.exitCode;
+    return await process.exitCode;
   }
 
   Future<int> start() async {

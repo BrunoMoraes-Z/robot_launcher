@@ -34,16 +34,21 @@ class _ConsoleActionsState extends State<ConsoleActions> {
                     Future.delayed(Duration(seconds: 3), () {
                       controller.updateEngine(EngineState.stopped);
                     });
-                    // Robot(
-                    //   dir: controller.configN.value.robotDir!,
-                    //   arguments: controller.configN.value.arguments!,
-                    //   command: controller.configN.value.runCommand!,
-                    //   file: controller.configN.value.runFile!,
-                    //   output: controller.configN.value.logDir!,
-                    // ).update().then(
-                    //       (value) =>
-                    //           controller.updateEngine(EngineState.stopped),
-                    //     );
+                    Robot(
+                      dir: controller.configN.value.robotDir!,
+                      arguments: controller.configN.value.arguments!,
+                      command: controller.configN.value.runCommand!,
+                      file: controller.configN.value.runFile!,
+                      output: controller.configN.value.logDir!,
+                    ).update().then(
+                      (value) {
+                        controller.updateEngine(EngineState.stopped);
+                        if (controller.log.value.isEmpty) {
+                          controller.add(
+                              'Repositório remoto pode não estar configurado.');
+                        }
+                      },
+                    );
                   },
                   color: Colors.greenAccent.shade700,
                   label: '',
@@ -128,30 +133,26 @@ class _ConsoleActionsState extends State<ConsoleActions> {
                       enabled:
                           controller.engineState.value == EngineState.stopped,
                       color: buttonColor,
-                      label: 'Ininicar',
+                      label: 'Iniciar',
                       icon: LineIcons.play,
                     ),
                     SizedBox(width: 10),
                     ConsoleButton(
                       action: () {
-                        //if (controller.config.runCommand!.toLowerCase() != 'pabot') {
-                          controller.configN.value.process!.split(',').forEach((element) {
-                            Process.start('taskkill', ['/f', '/im', element.trim()]).then((value) => controller.updateEngine(EngineState.stopped));
-                          });
-                          //Process.start('taskkill', [
-                          //  '/f',
-                          //  '/im',
-                          //  controller.configN.value.process!,
-                          //]).then(
-                          //  (value) =>
-                          //      controller.updateEngine(EngineState.stopped),
-                          //);
-                        //}
+                        var names =
+                            controller.configN.value.process!.split(',');
+                        names.forEach((element) {
+                          Process.run(
+                            'taskkill',
+                            ['/f', '/im', element.trim()],
+                          );
+                        });
+                        controller.updateEngine(EngineState.stopped);
                       },
                       enabled:
                           controller.engineState.value == EngineState.running,
                       color: Colors.redAccent,
-                      label: 'Matar',
+                      label: 'Finalizar',
                       icon: LineIcons.times,
                     ),
                   ],
